@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌌 Teori Alam Semesta - Knowledge Gate</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
+</head>
+<body>
+    <!-- Animated Stars Background -->
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <div class="container">
+        <!-- Login Form -->
+        <div class="login-box" id="loginBox">
+            <div class="logo">
+                <div class="galaxy-spin">🌌</div>
+                <h1>Universe Theory</h1>
+                <p>Knowledge Gate to Cosmos</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="username" placeholder="Pencari Kebenaran" required>
+                    <span class="input-icon">👤</span>
+                </div>
+                
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Kode Alam Semesta" required>
+                    <span class="input-icon">🔐</span>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <span>Enter Cosmos</span>
+                    <div class="btn-wave"></div>
+                </button>
+            </form>
+
+            <div class="theory-preview" id="theoryPreview">
+                <h3>✨ Teaser Teori:</h3>
+                <div id="randomTheory"></div>
+            </div>
+        </div>
+
+        <!-- Main Content (Hidden) -->
+        <div class="main-content" id="mainContent">
+            <header>
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
+                <h1>🌌 <span id="currentTheory">Teori Big Bang</span></h1>
+            </header>
+
+            <nav id="sidebar" class="sidebar">
+                <div class="nav-header">
+                    <h3>📚 Teori Alam Semesta</h3>
+                </div>
+                <ul>
+                    <li data-theory="bigbang"><span>💥</span> Big Bang Theory</li>
+                    <li data-theory="multiversum"><span>🔄</span> Multiverse</li>
+                    <li data-theory="string"><span>🎻</span> String Theory</li>
+                    <li data-theory="darkenergy"><span>🌑</span> Dark Energy</li>
+                    <li data-theory="blackhole"><span>🕳️</span> Black Hole</li>
+                    <li data-theory="quantum"><span>⚛️</span> Quantum Gravity</li>
+                    <li data-theory="hologram"><span>📽️</span> Holographic Universe</li>
+                </ul>
+            </nav>
+
+            <main id="theoryContent">
+                <!-- Content loaded dynamically -->
+            </main>
+
+            <footer>
+                <p>Did you know? Alam semesta terus mengembang dengan kecepatan <strong>73 km/detik/megaparsec</strong></p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

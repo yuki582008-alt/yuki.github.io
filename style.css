@@ -1,0 +1,318 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    background: #000;
+    color: white;
+    min-height: 100vh;
+}
+
+/* Animated Stars */
+.stars, .stars2, .stars3 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.stars {
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="white" opacity="0.8"/><circle cx="90" cy="20" r="0.5" fill="white" opacity="0.6"/><circle cx="30" cy="80" r="1.2" fill="white" opacity="0.9"/></svg>') repeat;
+    animation: twinkle 20s linear infinite;
+}
+
+.stars2 {
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="30" r="0.8" fill="#ffd700" opacity="0.7"/><circle cx="80" cy="70" r="0.6" fill="white" opacity="0.5"/></svg>') repeat;
+    animation: twinkle 30s linear infinite reverse;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100px); }
+}
+
+/* Container */
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+}
+
+/* Login Box */
+.login-box {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 50px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.logo {
+    margin-bottom: 40px;
+}
+
+.galaxy-spin {
+    font-size: 4em;
+    display: block;
+    margin: 0 auto 20px;
+    animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.login-box h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5em;
+    background: linear-gradient(45deg, #ffd700, #00ffff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #00ffff;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 18px 20px 18px 50px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    color: white;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.input-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(45deg, #ffd700, #ffed4a);
+    color: #000;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
+}
+
+.btn-wave {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.login-btn:hover .btn-wave {
+    left: 100%;
+}
+
+.theory-preview {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.theory-preview h3 {
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+/* Main Content */
+.main-content {
+    display: none;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 20px 40px;
+    background: rgba(0, 0, 0, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+header h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 2em;
+    margin: 0;
+}
+
+.sidebar {
+    position: fixed;
+    left: -300px;
+    top: 0;
+    width: 300px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    transition: left 0.3s ease;
+    z-index: 1000;
+    padding: 80px 20px 20px;
+    overflow-y: auto;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.nav-header h3 {
+    color: #00ffff;
+    margin-bottom: 30px;
+    font-family: 'Orbitron', monospace;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar li:hover {
+    background: rgba(0, 255, 255, 0.2);
+    transform: translateX(10px);
+}
+
+.sidebar li.active {
+    background: linear-gradient(45deg, #ffd700, #00ffff);
+    color: #000;
+    font-weight: 600;
+}
+
+main {
+    padding: 40px;
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+}
+
+.theory-card {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideIn 0.8s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.theory-card h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #ffd700, #00ffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.theory-card p {
+    line-height: 1.8;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+.highlight {
+    background: rgba(255, 215, 0, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #ffd700;
+    margin: 20px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .login-box { padding: 30px 20px; margin: 20px; }
+    main { padding: 20px; }
+    header { padding: 15px 20px; }
+    .sidebar { width: 100%; left: -100%; }
+}
