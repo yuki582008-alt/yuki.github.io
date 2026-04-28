@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Ular Mobile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: manipulation; /* Mencegah zoom saat sentuh */
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin: 15px 0;
+            font-size: 24px;
+        }
+
+        #score-board {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        #game-container {
+            position: relative;
+            width: 95vw;
+            max-width: 400px;
+            height: 70vh;
+            max-height: 600px;
+            border: 2px solid #4CAF50;
+            background-color: #2d2d2d;
+            overflow: hidden;
+        }
+
+        .snake-part {
+            position: absolute;
+            background-color: #4CAF50;
+            border-radius: 3px;
+        }
+
+        .food {
+            position: absolute;
+            background-color: #f44336;
+            border-radius: 50%;
+        }
+
+        #controls {
+            display: grid;
+            grid-template-areas:
+                ". up ."
+                "left down right";
+            gap: 10px;
+            margin-top: 20px;
+            width: 200px;
+            height: 200px;
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        #up { grid-area: up; }
+        #left { grid-area: left; }
+        #down { grid-area: down; }
+        #right { grid-area: right; }
+    </style>
+</head>
+<body>
+    <h1>Ular Mobile</h1>
+    <div id="score-board">Skor: 0</div>
+    <div id="game-container"></div>
+    <div id="controls">
+        <button class="control-btn" id="up">↑</button>
+        <button class="control-btn" id="left">←</button>
+        <button class="control-btn" id="down">↓</button>
+        <button class="control-btn" id="right">→</button>
+    </div>
+
+    <script>
+        // Inisialisasi elemen
+        const gameContainer = document.getElementById('game-container');
+        const scoreBoard = document.getElementById('score-board');
+        const controls = document.querySelectorAll('.control-btn');
+
+        // Pengaturan game
+        let gridSize = 20;
+        let snake = [{ x: 10, y: 10 }];
+        let food = { x: 15, y: 15 };
+        let dx = 1;
+        let dy = 0;
+        let score = 0;
+        let gameLoop;
+        let speed = 150;
+
+        // Fungsi buat elemen di game
+        function createElement(className, x, y) {
+            const elem = document.createElement('div');
+            elem.className = className;
+            elem.style.width = `${gridSize}px`;
+            elem.style.height = `${gridSize}px`;
+            elem.style.left = `${x * gridSize}px`;
+            elem.style.top = `${y * gridSize}px`;
+            return elem;
+        }
+
+        // Tampilkan game
+        function renderGame() {
+            gameContainer.innerHTML = '';
+            
+            // Tampilkan ular
+            snake.forEach(part => {
+                gameContainer.appendChild(createElement('snake-part', part.x, part.y));
+            });
+
+            // Tampilkan makanan
+            gameContainer.appendChild(createElement('food', food.x, food.y));
+
+            // Update skor
+            scoreBoard.textContent = `Skor: ${score}`;
+        }
+
+        // Gerakan ular
+        function moveSnake() {
+            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+            snake.unshift(head);
+
+            // Cek apakah makan makanan
+            if (head.x === food.x && head.y === food.y) {
+                score += 10;
+                // Tambah kecepatan sedikit setiap kali makan
+                if (speed > 80) speed -= 5;
+                clearInterval(gameLoop);
+                gameLoop = setInterval(gameUpdate, speed);
+                spawnFood();
+            } else {
+                snake.pop();
+            }
+
+            // Cek tabrakan
+            if (checkCollision()) {
+                clearInterval(gameLoop);
+                alert(`Game Over! Skor akhir: ${score}\nTekan OK untuk mulai lagi`);
+                resetGame();
+            }
+        }
+
+        // Spawn makanan di tempat acak
+        function spawnFood() {
+            let newFood;
+            while (newFood == null || isOnSnake(newFood)) {
+                newFood = {
+                    x: Math.floor(Math.random() * (gameContainer.clientWidth / gridSize)),
+                    y: Math.floor(Math.random() * (gameContainer.clientHeight / gridSize))
+                };
+            }
+            food = newFood;
+        }
+
+        // Cek apakah makanan ada di tubuh ular
+        function isOnSnake(pos) {
+            return snake.some(part => part.x === pos.x && part.y === pos.y);
+        }
+
+        // Cek tabrakan (dinding atau tubuh sendiri)
+        function checkCollision() {
+            // Tabrakan dinding
+            if (
+                snake[0].x < 0 ||
+                snake[0].x >= gameContainer.clientWidth / gridSize ||
+                snake[0].y < 0 ||
+                snake[0].y >= gameContainer.clientHeight / gridSize
+            ) {
+                return true;
+            }
+
+            // Tabrakan tubuh sendiri
+            for (let i = 1; i < snake.length; i++) {
+                if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Ubah arah gerakan
+        function changeDirection(dir) {
+            const up = dx === 0 && dy === -1;
+            const down = dx === 0 && dy === 1;
+            const left = dx === -1 && dy === 0;
+            const right = dx === 1 && dy === 0;
+
+            switch(dir) {
+                case 'up':
+                    if (!down) { dx = 0; dy = -1; }
+                    break;
+                case 'down':
+                    if (!up) { dx = 0; dy = 1; }
+                    break;
+                case 'left':
+                    if (!right) { dx = -1; dy = 0; }
+                    break;
+                case 'right':
+                    if (!left) { dx = 1; dy = 0; }
+                    break;
+            }
+        }
+
+        // Reset game
+        function resetGame() {
+            snake = [{ x: 10, y: 10 }];
+            food = { x: 15, y: 15 };
+            dx = 1;
+            dy = 0;
+            score = 0;
+            speed = 150;
+            gameLoop = setInterval(gameUpdate, speed);
+        }
+
+        // Update game setiap loop
+        function gameUpdate() {
+            moveSnake();
+            renderGame();
+        }
+
+        // Event listener kontrol sentuh
+        controls.forEach(btn => {
+            btn.addEventListener('click', () => {
+                changeDirection(btn.id);
+            });
+        });
+
+        // Event listener keyboard untuk komputer juga
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowUp': changeDirection('up'); break;
+                case 'ArrowDown': changeDirection('down'); break;
+                case 'ArrowLeft': changeDirection('left'); break;
+                case 'ArrowRight': changeDirection('right'); break;
+            }
+        });
+
+        // Mulai game
+        gameLoop = setInterval(gameUpdate, speed);
+    </script>
+</body>
+</html>
